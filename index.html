@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .form-section {
+      padding: 40px 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+      font-size: 1.1em;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4facfe;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 18px 40px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .records-section {
+      padding: 0 30px 40px;
+    }
+
+    .section-title {
+      font-size: 1.8em;
+      margin-bottom: 30px;
+      color: #333;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .section-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 30px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      border-radius: 2px;
+    }
+
+    .record {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      margin: 15px 0;
+      padding: 25px;
+      border-radius: 15px;
+      border-left: 4px solid #4facfe;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .record:hover {
+      transform: translateX(5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .record-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .record-name {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .record-email {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .record-feedback {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      font-style: italic;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .empty-state i {
+      font-size: 3em;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 15px;
+      }
+      
+      .header {
+        padding: 30px 20px;
+      }
+      
+      .header h1 {
+        font-size: 2em;
+      }
+      
+      .form-section,
+      .records-section {
+        padding: 30px 20px;
+      }
+      
+      .record-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .record-email {
+        margin-top: 5px;
+      }
+    }
+
+    .success-message {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+  <script>
+    const API_URL = "http://127.0.0.1:5000";
+
+    async function submitFeedback() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const feedback = document.getElementById("feedback").value;
+      const successMessage = document.getElementById("success-message");
+
+      if (name && email && feedback) {
+        try {
+          await fetch(`${API_URL}/create`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, feedback })
+          });
+
+          // Show success message
+          successMessage.style.display = 'block';
+          successMessage.textContent = '✅ Thank you! Your feedback has been submitted successfully.';
+          
+          setTimeout(() => {
+            successMessage.style.display = 'none';
+          }, 5000);
+
+          loadFeedbacks();
+          document.getElementById("form").reset();
+        } catch (error) {
+          successMessage.style.display = 'block';
+          successMessage.style.background = 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)';
+          successMessage.textContent = '❌ Error submitting feedback. Please try again.';
+        }
+      } else {
+        alert("All fields are required.");
+      }
+    }
+
+    async function loadFeedbacks() {
+      const container = document.getElementById("records");
+      container.innerHTML = '<div class="loading">Loading feedback...</div>';
+
+      try {
+        const response = await fetch(`${API_URL}/get_records`);
+        const records = await response.json();
+        container.innerHTML = '';
+
+        if (records.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i>💬</i>
+              <p>No feedback submitted yet. Be the first to share your thoughts!</p>
+            </div>
+          `;
+          return;
+        }
+
+        records.forEach(record => {
+          const div = document.createElement("div");
+          div.className = "record";
+          div.innerHTML = `
+            <div class="record-header">
+              <div class="record-name">${escapeHtml(record.name)}</div>
+              <div class="record-email">${escapeHtml(record.email)}</div>
+            </div>
+            <div class="record-feedback">"${escapeHtml(record.feedback)}"</div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (error) {
+        container.innerHTML = '<div class="loading">Error loading feedback. Please try again.</div>';
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    window.onload = loadFeedbacks;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>We Value Your Feedback</h1>
+      <p>Share your thoughts and help us improve our service</p>
+    </div>
+
+    <div class="form-section">
+      <div id="success-message" class="success-message"></div>
+      
+      <form id="form" onsubmit="event.preventDefault(); submitFeedback();">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required placeholder="Enter your email address">
+        </div>
+
+        <div class="form-group">
+          <label for="feedback">Your Feedback</label>
+          <textarea id="feedback" required placeholder="Share your thoughts, suggestions, or concerns..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+      </form>
+    </div>
+
+    <div class="records-section">
+      <h2 class="section-title">Recent Feedback</h2>
+      <div id="records"></div>
+    </div>
+  </div>
+</body>
+</html>
